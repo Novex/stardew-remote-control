@@ -2,8 +2,6 @@
 using System.Linq;
 using StardewModdingAPI;
 using StardewValley;
-using StardewValley.Buildings;
-using StardewValley.Locations;
 using static RemoteControl.Utilities;
 
 namespace RemoteControl
@@ -45,21 +43,16 @@ namespace RemoteControl
                 return;
             }
 
-            foreach (Building building in Game1.getFarm().buildings)
+            foreach (Farmer farmer in getAllPlayers())
             {
-                if (building.indoors.Value is Cabin && !(((Cabin)building.indoors.Value).farmhand.Value is null))
-                {
-                    Farmer farmer = ((Cabin)building.indoors.Value).farmhand.Value;
+                Monitor.Log($"Assigning first farmer {farmer}", LogLevel.Debug);
+                Monitor.Log($"{farmer.UniqueMultiplayerID} = farmhand id", LogLevel.Debug);
+                Monitor.Log($"{farmer.Name} = farmhand name", LogLevel.Debug);
 
-                    Monitor.Log($"Assigning first farmer {farmer}", LogLevel.Debug);
-                    Monitor.Log($"{farmer.UniqueMultiplayerID} = farmhand id", LogLevel.Debug);
-                    Monitor.Log($"{farmer.Name} = farmhand name", LogLevel.Debug);
+                json.shouldAssignAdminToFirstCabinFarmer = false;
+                addAdmin(farmer);   // This will save both settings
 
-                    json.shouldAssignAdminToFirstCabinFarmer = false;
-                    addAdmin(farmer);   // This will save both settings
-
-                    break;
-                }
+                break;
             }
         }
 

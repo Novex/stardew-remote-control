@@ -1,11 +1,9 @@
 ﻿using StardewModdingAPI;
 using StardewValley;
+using StardewValley.Buildings;
+using StardewValley.Locations;
 using StardewValley.Menus;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RemoteControl
 {
@@ -50,7 +48,7 @@ namespace RemoteControl
         {
             foreach (Farmer farmer in Game1.getOnlineFarmers())
             {
-                if (farmer.name.ToString() == name)
+                if (farmer.Name == name)
                 {
                     return farmer;
                 }
@@ -79,6 +77,21 @@ namespace RemoteControl
 
             // also show the message in our own message box
             Game1.chatBox.receiveChatMessage(Game1.player.UniqueMultiplayerID, (int)ChatMessage.ChatKinds.PrivateMessage, LocalizedContentManager.CurrentLanguageCode, msg);
+        }
+
+        public static List<Farmer> getAllPlayers()
+        {
+            List<Farmer> farmers = new List<Farmer>();
+
+            foreach (Building building in Game1.getFarm().buildings)
+            {
+                if (building.indoors.Value is Cabin && !(((Cabin)building.indoors.Value).farmhand.Value is null))
+                {
+                    farmers.Add(((Cabin)building.indoors.Value).farmhand.Value);
+                }
+            }
+
+            return farmers;
         }
     }
 }
