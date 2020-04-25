@@ -19,7 +19,7 @@ namespace RemoteControl
 
             public bool everyoneIsAdmin { get; set; } = false;
             public List<Admin> admins { get; set; } = new List<Admin>();
-            public bool shouldAssignAdminToFirstCabinFarmer { get; set; } = true;
+            public bool shouldAssignAdminToFirstCabinFarmer { get; set; } = false;
         }
 
         private IMonitor Monitor;
